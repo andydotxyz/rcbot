@@ -70,7 +70,7 @@ public class ProxyIRCServiceManager extends DefaultIRCServiceManager implements 
   private void loadListeners() {
     List listeners;
     try {
-        listeners = locator.lookupList(IRCListener.class.getName());
+      listeners = locator.lookupList(IRCListener.class.getName());
     } catch (ComponentLookupException e) {
       System.err.println("Error looking up listener: " + e.getMessage());
       return;
