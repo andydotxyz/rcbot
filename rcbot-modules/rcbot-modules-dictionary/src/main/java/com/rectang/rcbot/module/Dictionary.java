@@ -73,7 +73,8 @@ public class Dictionary implements com.rectang.rcbot.Dictionary {
 
         definition = "";
         while ((line = con.getReader().readLine( )) != null) {
-          if (line.trim( ).equals("") || line.startsWith("2") ||
+          String trimmed = line.trim();
+          if (trimmed.equals("") || trimmed.startsWith("2") ||
               line.startsWith(".")) {
             break;
           } else {
@@ -83,7 +84,7 @@ public class Dictionary implements com.rectang.rcbot.Dictionary {
         break;
       }
 
-      if (line.startsWith("2")) {
+      if (line.trim().startsWith("2")) {
         break;
       }
     }
