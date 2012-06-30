@@ -1,0 +1,17 @@
+#set($title="Topic log for $channel")
+#parse("header.vm")
+
+    <table class="log">
+      <tr><th class="time">Time</th>
+        <th class="nick">Nick</th>
+        <th class="message">Message</th>
+      </tr>
+#foreach ($line in $lines)
+      <tr class="$line.styles"><td class="time">$line.shortDateTime</td>
+        <td class="nick">$line.nick</td>
+        <td class="message">$line.message</td>
+      </tr>
+#end
+    </table>
+
+#parse("footer.vm")

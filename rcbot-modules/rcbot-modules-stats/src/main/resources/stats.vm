@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>Stats for ${stats.channel} @ ${stats.host} by ${stats.nick}</title>
+  </head>
+  <body>
+    <h1>Stats for ${stats.channel} @ ${stats.host} by ${stats.nick}</h1>
+    <p>Summary of channel statistics since ${stats.startTime}.</p>
+
+    <h2>Most active users</h2>
+    <table>
+      <tr>
+        <th>Nick</th>
+        <th>Lines</th>
+        <th>Last Seen</th>
+        <th>Saying</th>
+      </tr>
+
+#foreach ($user in ${stats.users})
+      <tr>
+        <td>${user.nick}</td>
+        <td>${user.lines}</td>
+        <td>${user.shortLastSeen}</td>
+        <td>${user.markupQuote}</td>
+      </tr>
+#end
+    </table>
+
+    <h2>Most recent topics</h2>
+    <table>
+      <tr>
+        <th>Topic</th>
+        <th>Set By</th>
+        <th>When</th>
+      </tr>
+
+#foreach ($topic in ${stats.topics})
+      <tr>
+        <td>${topic.markupTopic}</td>
+        <td>${topic.nick}</td>
+        <td>${topic.shortWhen}</td>
+      </tr>
+#end
+    </table>
+
+  </body>
+</html>

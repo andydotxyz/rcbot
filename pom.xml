@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2006-2012 Andrew Williams.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.rectang</groupId>
+    <artifactId>rectang-default</artifactId>
+    <version>1.2</version>
+  </parent>
+  <groupId>com.rectang.rcbot</groupId>
+  <artifactId>rcbot</artifactId>
+  <version>1.0-beta-2-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Rectang.com RCBot</name>
+  <url>dev.rectang.com/rcbot</url>
+  <scm>
+    <connection>scm:git:git://github.com/ajwillia-ms/rcbot.git</connection>
+    <developerConnection>scm:git:git@github.com:ajwillia-ms/rcbot.git</developerConnection>
+    <url>http://headsupdev.org/rcbot/files/</url>
+  </scm>
+  <modules>
+    <module>rcbot-api</module>
+    <module>rcbot-core</module>
+    <module>rcbot-modules</module>
+    <module>rcbot-app</module>
+  </modules>
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-container-default</artifactId>
+      <version>1.0-alpha-9</version>
+    </dependency>
+    <dependency>
+      <groupId>velocity</groupId>
+      <artifactId>velocity</artifactId>
+      <version>1.4</version>
+    </dependency>
+  </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-container-default</artifactId>
+        <version>1.0-alpha-31</version>
+      </dependency>
+      <dependency> <!-- this is a temporary hack to keep the api out -->
+        <groupId>org.codehaus.plexus</groupId>
+        <artifactId>plexus-component-api</artifactId>
+        <version>1.0-alpha-31</version>
+        <scope>provided</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <repositories>
+    <repository>
+      <id>rectang-dev-release</id>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <url>http://dev.rectang.com/repository/release/</url>
+    </repository>
+    <repository>
+      <id>rectang-dev-snapshot</id>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <url>http://dev.rectang.com/repository/snapshot/</url>
+    </repository>
+  </repositories>
+</project>

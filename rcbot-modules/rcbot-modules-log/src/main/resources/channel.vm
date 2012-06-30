@@ -1,0 +1,56 @@
+#set($title="Channel log for $channel")
+#parse("header.vm")
+
+#if($index)
+<p>Make sure you check out the <a href="topics/">topics</a> that are
+currently under discussion.</p>
+#end
+
+    <table class="nav"><tr>
+      <td class="prev">
+#if($prev)
+        <a href="${prev}.html">&lt; prev</a>
+#else
+        &nbsp;
+#end
+      </td>
+      <td class="next">
+#if($next)
+        <a href="${next}.html">next &gt;</a>
+#else
+        &nbsp;
+#end
+      </td>
+    </tr></table>
+
+    <table class="log">
+      <tr><th class="time">Time</th>
+        <th class="nick">Nick</th>
+        <th class="message">Message</th>
+      </tr>
+#foreach ($line in $lines)
+      <tr class="$line.styles"><td class="time">$line.shortTime</td>
+        <td class="nick">$line.nick</td>
+        <td class="message">$line.message</td>
+      </tr>
+#end
+    </table>
+
+    <table class="nav"><tr>
+      <td class="prev">
+#if($prev)
+        <a href="${prev}.html">&lt; prev</a>
+#else
+        &nbsp;
+#end
+      </td>
+      <td class="next">
+#if($next)
+        <a href="${next}.html">next &gt;</a>
+#else
+        &nbsp;
+#end
+      </td>
+    </tr></table>
+
+#parse("footer.vm")

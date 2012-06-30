@@ -1,0 +1,25 @@
+#set($title="List of topics logged in channel $channel")
+#parse("header.vm")
+
+<p>To enter something into a topic use the topic name in square brackets as a
+prefix, e.g. <code>[logger] This goes to the "logger" topic</code></p>
+
+    <table class="log-topics">
+      <tr><th class="topic">Name</th>
+        <th class="title">Title</th>
+      </tr>
+#set($odd = false)
+#foreach ($topic in $topics)
+  #if ($odd)
+      <tr class="odd">
+  #else
+      <tr class="even">
+  #end
+        <td class="topic"><a href="${topic.name}.html">$topic.name</a></td>
+        <td class="title">$topic.topic</td>
+      </tr>
+  #set($odd = !$odd)
+#end
+    </table>
+
+#parse("footer.vm")

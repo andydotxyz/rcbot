@@ -1,0 +1,22 @@
+#set($title="List of channels logged")
+#parse("header.vm")
+
+    <table class="log-channels">
+      <tr><th class="channel">Channel</th>
+        <th class="topic">Topic</th>
+      </tr>
+#set($odd = false)
+#foreach ($channel in $channels)
+  #if ($odd)
+      <tr class="odd">
+  #else
+      <tr class="even">
+  #end
+        <td class="channel"><a href="$channel.link">$channel.name</a></td>
+        <td class="topic">$channel.markupTopic</td>
+      </tr>
+  #set($odd = !$odd)
+#end
+    </table>
+
+#parse("footer.vm")

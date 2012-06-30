@@ -1,0 +1,31 @@
+# the nick for the bot
+bot.nick=RCBot
+
+# the server to connect to. If this failes to connect the bot will quit
+bot.server=irc.freenode.net
+
+# a comma separated list of channels to join on startup
+bot.channels=#rectang
+
+# should we reconnect if we are disconnected?
+bot.reconnect=true
+
+#if we have nickserv in chanrge set a password here and we will identify
+nickserv.pass=
+
+# owner configuration if any option is left blank, or commented out it will
+# match anything (NOT recommended to leave owner.host blank)
+owner.nick=
+owner.login=
+owner.host=
+
+
+
+# module config
+
+# factoid options
+# should we listen to public chatter
+module.factoid.public_listen=true
+# if so, should we give public definitions?
+module.factoid.public_respond=true
+

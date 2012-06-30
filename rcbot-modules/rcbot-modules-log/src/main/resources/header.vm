@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <title>$title</title>
+    <style type="text/css">
+table.nav {
+  width: 100%;
+}
+
+table.nav td.prev {
+  text-align: left;
+}
+
+table.nav td.next {
+  text-align: right;
+}
+
+table.log {
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+table.log td {
+  padding: 2px;
+  text-align: left;
+}
+
+table.log td.time, table.log td.nick {
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+tr.action td.message {
+  font-weight: bold;
+}
+
+tr.nick0 td {
+  background-color: #d9d4c3;
+}
+tr.nick1 td {
+  background-color: #ffbfbf;
+}
+tr.nick2 td {
+  background-color: #ffdfbf;
+}
+tr.nick3 td {
+  background-color: #fff2bf;
+}
+tr.nick4 td {
+  background-color: #f2ffbf;
+}
+tr.nick5 td {
+  background-color: #bfffbf;
+}
+tr.nick6 td {
+  background-color: #bfe4ff;
+}
+tr.nick7 td {
+  background-color: #d58fff;
+}
+tr.nick8 td {
+  background-color: #ffbfff;
+}
+    </style>
+  </head>
+  <body>
+    <h1>$title</h1>
