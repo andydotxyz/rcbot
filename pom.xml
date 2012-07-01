@@ -30,7 +30,7 @@
   <url>dev.rectang.com/rcbot</url>
   <scm>
     <connection>scm:git:git://github.com/ajwillia-ms/rcbot.git</connection>
-    <developerConnection>scm:git:git://github.com/ajwillia-ms/rcbot.git</developerConnection>
+    <developerConnection>scm:git:git@github.com:ajwillia-ms/rcbot.git</developerConnection>
     <url>http://headsupdev.org/rcbot/files/</url>
   </scm>
   <modules>
