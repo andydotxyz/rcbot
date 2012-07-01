@@ -19,10 +19,10 @@
   <parent>
     <groupId>com.rectang.rcbot</groupId>
     <artifactId>rcbot</artifactId>
-    <version>1.0-beta-2-SNAPSHOT</version>
+    <version>1.0-beta-2</version>
   </parent>
   <artifactId>rcbot-modules</artifactId>
-  <version>1.0-beta-2-SNAPSHOT</version>
+  <version>1.0-beta-2</version>
   <packaging>pom</packaging>
   <name>Rectang.com RCBot Modules</name>
   <modules>
