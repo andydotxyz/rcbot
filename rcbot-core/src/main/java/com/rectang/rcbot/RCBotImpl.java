@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,6 +39,9 @@ public class RCBotImpl implements RCBot, Startable, LogEnabled {
 
   private IRCConnection connection;
   private StorageImpl config;
+
+  // A hack around broken plexus - remove ASAP
+  static boolean started = false;
 
   /**
    * @plexus.requirement
@@ -109,7 +112,11 @@ public class RCBotImpl implements RCBot, Startable, LogEnabled {
   }
 
   public void start() throws StartingException {
+    if (started)
+      return;
+
     logger.info("Starting RCBot[" + id + "]");
+    started = true;
     init();
   }
 

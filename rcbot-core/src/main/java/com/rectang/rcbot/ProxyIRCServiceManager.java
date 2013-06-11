@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,20 +35,31 @@ import java.util.List;
 public class ProxyIRCServiceManager extends DefaultIRCServiceManager implements Serviceable {
   private ServiceLocator locator;
 
+  // A hack around broken plexus - remove ASAP
+  static LoadThread lookups;
+
   public void service(final ServiceLocator serviceLocator) {
     this.locator = serviceLocator;
 
-    new Thread() {
+    if (lookups != null) {
+      lookups.cancel();
+    }
+
+    (lookups = new LoadThread() {
       public void run() {
         try {
-          Thread.sleep(1000);
+          Thread.sleep(5000);
         } catch (InterruptedException e) {
-          // just execute anyway
+          // just execute anyway - we will cancel before it happens
         }
+
+        if (cancelled)
+          return;
+
         loadCommands();
         loadListeners();
       }
-    }.start();
+    }).start();
   }
 
   private void loadCommands() {
@@ -81,5 +92,13 @@ public class ProxyIRCServiceManager extends DefaultIRCServiceManager implements 
       IRCListener listener = (IRCListener) listIter.next();
       ((DefaultIRCServiceManager) IRCServiceManager.getInstance()).addListener(listener);
     }
+  }
+}
+
+class LoadThread extends Thread {
+  protected boolean cancelled = false;
+
+  public void cancel() {
+    cancelled = true;
   }
 }
