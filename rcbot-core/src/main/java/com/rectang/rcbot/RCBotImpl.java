@@ -19,6 +19,7 @@ package com.rectang.rcbot;
 import org.headsupdev.irc.IRCConnection;
 import org.headsupdev.irc.IRCServiceManager;
 import org.headsupdev.irc.IRCUser;
+import org.headsupdev.irc.impl.DefaultIRCServiceManager;
 
 import java.io.File;
 
@@ -76,6 +77,9 @@ public class RCBotImpl extends RCBot {
     String nickServPass = getConfig().getString("nickserv.pass");
     if (nickServPass != null && !nickServPass.equals(""))
       connection.sendMessage("nickserv", "identify " + nickServPass);
+
+    // load the reconnector
+    ((DefaultIRCServiceManager) manager).addListener(new SystemListener(this, manager));
   }
 
   public Config getConfig() {
