@@ -25,8 +25,6 @@ import com.sun.syndication.io.XmlReader;
 import java.util.*;
 import java.net.URL;
 
-import org.headsupdev.irc.IRCServiceManager;
-
 /**
  * A simple feed watcher.
  *
@@ -37,7 +35,7 @@ public class FeedWatcher {
 
   private RCBot bot;
 
-  private Map feeds = new HashMap();
+  private Map<String,WatchedFeed> feeds = new HashMap<String,WatchedFeed>();
   private WatcherThread watcher = new WatcherThread();
 
   public FeedWatcher(RCBot bot) {
@@ -52,14 +50,14 @@ public class FeedWatcher {
       SyndFeedInput input = new SyndFeedInput();
       SyndFeed feed = input.build(new XmlReader(feedUrl));
 
-      WatchedFeed old = (WatchedFeed) feeds.get(channel + "-" + url);
+      WatchedFeed old = feeds.get(channel + "-" + url);
       if (old == null)
         feeds.put(channel + "-" + url, new WatchedFeed(feed, url, channel));
       else
         old.setFeed(feed);
       return feed;
     } catch (Exception e) {
-      e.printStackTrace();
+      System.err.println("Error adding feed: " + e.getMessage());
       return null;
     }
   }
@@ -70,14 +68,12 @@ public class FeedWatcher {
 
   public String addFeed(String channel, String url) {
     SyndFeed feed = updateFeed(channel, url);
-
     if (feed == null)
       return null;
 
-    WatchedFeed watched = (WatchedFeed) feeds.get(channel + "-" + url);
-    Iterator articles = watched.getFeed().getEntries().iterator();
-    while (articles.hasNext()) {
-      SyndEntry syndEntry = (SyndEntry) articles.next();
+    WatchedFeed watched = feeds.get(channel + "-" + url);
+    for (Object o : watched.getFeed().getEntries()) {
+      SyndEntry syndEntry = (SyndEntry) o;
       watched.setAnnounced(syndEntry.getTitle());
     }
 
@@ -85,7 +81,7 @@ public class FeedWatcher {
   }
 
   public String removeFeed(String channel, String url) {
-    WatchedFeed removing = (WatchedFeed) feeds.remove(channel + "-" + url);
+    WatchedFeed removing = feeds.remove(channel + "-" + url);
 
     if (removing == null)
       return null;
@@ -103,9 +99,9 @@ public class FeedWatcher {
           /* meh */
         }
 
-        Enumeration feedEnum = new Vector(feeds.values()).elements(); //not fail-fast
+        Enumeration<WatchedFeed> feedEnum = new Vector<WatchedFeed>(feeds.values()).elements(); //not fail-fast
         while (feedEnum.hasMoreElements()) {
-          WatchedFeed watched = (WatchedFeed) feedEnum.nextElement();
+          WatchedFeed watched = feedEnum.nextElement();
 
           String channel = watched.getChannel();
           updateFeed(channel, watched.getUrl());
@@ -135,13 +131,13 @@ class WatchedFeed {
   private String url;
   private String channel;
 
-  private Set announced;
+  private Set<String> announced;
 
   public WatchedFeed(SyndFeed feed, String url, String channel) {
     this.feed = feed;
     this.url = url;
     this.channel = channel;
-    this.announced = new HashSet();
+    this.announced = new HashSet<String>();
   }
 
   public SyndFeed getFeed() {

@@ -70,9 +70,13 @@ public class Feed extends RCBotCommand {
     channel = channel.toLowerCase();
     Storage conf = StorageImpl.getInstance("feeds", bot);
     if (command.equals("watch")) {
-      conf.appendStringList(channel + ".feeds", message);
       String title = watcher.addFeed(channel, message);
-      conn.sendMessage(channel, "Added the feed \"" + title + "\"");
+      if (title == null) {
+        conn.sendMessage(channel, "Unable to add requested feed");
+      } else {
+        conf.appendStringList(channel + ".feeds", message);
+        conn.sendMessage(channel, "Added the feed \"" + title + "\"");
+      }
     } else if (command.equals("unwatch")) {
       conf.removeStringList(channel + ".feeds", message);
       String title = watcher.removeFeed(channel, message);
