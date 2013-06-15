@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 
 package com.rectang.rcbot.module;
 
+import com.rectang.rcbot.ProxyIRCServiceManager;
+import com.rectang.rcbot.RCBotImpl;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.framework.TestCase;
@@ -41,7 +43,7 @@ public class FeedWatcherTest extends TestCase {
   }
 
   public void testAddFeed() {
-    FeedWatcher watcher = new FeedWatcher();
+    FeedWatcher watcher = new FeedWatcher(new RCBotImpl("test"));
     System.out.println(watcher.addFeed("channel",
         "http://handyande.co.uk/Coding_News/feed.xml"));
   }

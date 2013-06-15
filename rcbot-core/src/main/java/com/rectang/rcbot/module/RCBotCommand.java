@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,13 @@ import com.rectang.rcbot.*;
 
 import java.util.*;
 
-import org.headsupdev.irc.IRCCommand;
-import org.headsupdev.irc.AbstractIRCListener;
-import org.headsupdev.irc.IRCConnection;
-import org.headsupdev.irc.IRCUser;
+import org.headsupdev.irc.*;
 
-public abstract class ModuleImpl extends AbstractIRCListener implements IRCCommand {
+public abstract class RCBotCommand extends AbstractIRCListener implements IRCCommand {
+
+  protected IRCServiceManager manager;
+
+  protected RCBot bot;
 
   public static final String EMPTY_COMMAND = "";
   public static final Collection NO_COMMANDS;
@@ -33,6 +34,11 @@ public abstract class ModuleImpl extends AbstractIRCListener implements IRCComma
   static {
     NO_COMMANDS = new Vector();
     NO_COMMANDS.add(EMPTY_COMMAND);
+  }
+
+  public RCBotCommand(RCBot bot, IRCServiceManager manager) {
+    this.bot = bot;
+    this.manager = manager;
   }
 
   public abstract String getTitle();
@@ -60,8 +66,6 @@ public abstract class ModuleImpl extends AbstractIRCListener implements IRCComma
   protected String getConfigKey(String key) {
     return ConfigImpl.getModuleConfigKey(getId(), key);
   }
-
-  public abstract Collection getCommands();
 
   public final void onPrivateCommand(IRCUser ircUser, String message, IRCConnection conn) {
     doSubCommand(ircUser.getNick(), ircUser, message, true, conn);
@@ -116,6 +120,11 @@ public abstract class ModuleImpl extends AbstractIRCListener implements IRCComma
     onSubCommand(command, user.getNick(), user, message, conn);
   }
 
-  public abstract void onMissingCommand(String command, String channel,
-                                         IRCUser ircUser, IRCConnection conn);
+  public Collection getCommands() {
+    return NO_COMMANDS;
+  }
+
+  public void onMissingCommand(String command, String channel, IRCUser user, IRCConnection conn) {
+    /* NO_COMMANDS so cannot use this */
+  }
 }

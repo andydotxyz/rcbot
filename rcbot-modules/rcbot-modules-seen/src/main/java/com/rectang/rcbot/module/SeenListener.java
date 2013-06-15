@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,9 @@
 
 package com.rectang.rcbot.module;
 
+import com.rectang.rcbot.RCBot;
 import org.headsupdev.irc.IRCConnection;
+import org.headsupdev.irc.IRCServiceManager;
 import org.headsupdev.irc.IRCUser;
 import org.headsupdev.irc.AbstractIRCListener;
 
@@ -26,16 +28,12 @@ import com.rectang.rcbot.StorageImpl;
 /**
  * A module for watching who is around
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCListener"
- *   role-hint="seen-listen"
  */
-public class SeenListener extends AbstractIRCListener {
+public class SeenListener extends RCBotListener {
 
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
+  public SeenListener(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+  }
 
   public Storage getStore() {
     return StorageImpl.getInstance("seen", bot);

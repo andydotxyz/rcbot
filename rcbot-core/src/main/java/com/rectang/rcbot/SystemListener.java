@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,20 @@
 
 package com.rectang.rcbot;
 
+import com.rectang.rcbot.module.RCBotListener;
 import org.headsupdev.irc.AbstractIRCListener;
 import org.headsupdev.irc.IRCConnection;
+import org.headsupdev.irc.IRCServiceManager;
 
 /**
  * Main rcbot listener, for system events.
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCListener"
- *   role-hint="rcbot-listen"
  */
-public class RCBotListener extends AbstractIRCListener {
+public class SystemListener extends RCBotListener {
 
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
+  public SystemListener(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+  }
 
   public void onDisconnected(IRCConnection conn) {
     if (bot.getConfig().getBoolean("bot.reconnect")) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ package com.rectang.rcbot.module;
 import java.util.*;
 import java.io.File;
 
+import com.rectang.rcbot.RCBot;
+import com.rectang.rcbot.TemplateImpl;
 import org.headsupdev.irc.IRCConnection;
 import org.headsupdev.irc.IRCServiceManager;
 import org.headsupdev.irc.IRCUser;
@@ -28,32 +30,17 @@ import org.apache.velocity.Template;
 /**
  * A module used to keep channel statistics
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCListener"
- *   role-hint="stats-listen"
  */
-public class Stats extends AbstractIRCListener {
+public class Stats extends RCBotListener {
 
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
-  private IRCServiceManager manager;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.Template template;
+  private com.rectang.rcbot.Template template = new TemplateImpl();
 
   private File root = null, htmlroot = null;
   private Hashtable stats;
 
-  public Stats() {
+  public Stats(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+
     stats = new Hashtable();
     (new StatHtml(this)).start();
   }

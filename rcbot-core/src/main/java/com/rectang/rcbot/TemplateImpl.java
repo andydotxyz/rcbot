@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,15 +21,8 @@ import org.apache.velocity.app.Velocity;
 import java.io.File;
 
 /**
- * @plexus.component
- *   role="com.rectang.rcbot.Template"
  */
 public class TemplateImpl implements Template {
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
 
   private boolean inited = false;
 
@@ -58,6 +51,6 @@ public class TemplateImpl implements Template {
   }
 
   public File getTemplateRoot() {
-    return new File(bot.getDataRoot(), "templates");
+    return new File(RCBot.getInstance().getDataRoot(), "templates");
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ public abstract class Game {
   }
 
   protected Score getScores() {
-    return mod.getScores();
+    return Score.getInstance();
   }
 
   public abstract void newGame(String channel, String sender, IRCConnection conn);

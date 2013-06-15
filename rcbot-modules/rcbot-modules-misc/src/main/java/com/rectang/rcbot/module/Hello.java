@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,31 +16,32 @@
 
 package com.rectang.rcbot.module;
 
-import org.headsupdev.irc.AbstractIRCCommand;
+import com.rectang.rcbot.RCBot;
 import org.headsupdev.irc.IRCConnection;
 import org.headsupdev.irc.IRCServiceManager;
 import org.headsupdev.irc.IRCUser;
 
+import java.util.Collection;
+
 /**
  * A module with random commands like uptime and botsnack
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCCommand"
- *   role-hint="hello"
  */
-public class Hello extends AbstractIRCCommand {
+public class Hello extends RCBotCommand {
 
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
-  private IRCServiceManager manager;
+  public Hello(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+  }
 
   public String getId() {
     return "hello";
   }
 
-  public void onCommand(String channel, IRCUser user, String message, IRCConnection conn) {
+  public String getTitle() {
+    return "Greet the bot";
+  }
+
+  public void onSubCommand(String command, String channel, IRCUser user, String message, IRCConnection conn) {
     conn.sendMessage(channel, "Hey there, " + user.getNick());
   }
 }

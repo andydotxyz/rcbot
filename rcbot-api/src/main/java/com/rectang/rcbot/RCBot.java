@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,21 +21,29 @@ import org.headsupdev.irc.IRCUser;
 
 import java.io.File;
 
-public interface RCBot {
+public abstract class RCBot {
 
-  public static String ROLE = RCBot.class.getName();
+  private static RCBot instance;
 
-  public String getId();
+  public static RCBot getInstance() {
+    return instance;
+  }
 
-  public long getStartTime();
+  protected static void setInstance(RCBot bot) {
+    instance = bot;
+  }
 
-  public Config getConfig();
+  public abstract String getId();
 
-  public boolean isOwner(IRCUser user);
+  public abstract long getStartTime();
 
-  public void connect() throws Exception;
+  public abstract Config getConfig();
 
-  public File getDataRoot();
+  public abstract boolean isOwner(IRCUser user);
 
-  public IRCConnection getConnection();
+  public abstract void connect() throws Exception;
+
+  public abstract File getDataRoot();
+
+  public abstract IRCConnection getConnection();
 }

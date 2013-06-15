@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,31 +27,16 @@ import org.headsupdev.irc.IRCUser;
 /**
  * A module for accessing dictionary features
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCCommand"
- *   role-hint="dict"
  */
-public class DictionaryModule extends ModuleImpl {
+public class DictionaryModule extends RCBotCommand {
 
   private Vector commands;
 
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.Dictionary dict;
+  private com.rectang.rcbot.Dictionary dict = new Dictionary();
 
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
-  private IRCServiceManager manager;
+  public DictionaryModule(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
 
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
-
-  public DictionaryModule() {
     commands = new Vector();
     commands.add("define");
     commands.add("spell");

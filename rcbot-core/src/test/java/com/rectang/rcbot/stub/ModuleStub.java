@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,23 @@
 
 package com.rectang.rcbot.stub;
 
-import com.rectang.rcbot.module.ModuleImpl;
+import com.rectang.rcbot.RCBot;
+import com.rectang.rcbot.module.RCBotCommand;
 
 import java.util.Collection;
 
 import org.headsupdev.irc.IRCConnection;
+import org.headsupdev.irc.IRCServiceManager;
 import org.headsupdev.irc.IRCUser;
 
 /**
  * Simple module stub for testing
  */
-public class ModuleStub extends ModuleImpl {
+public class ModuleStub extends RCBotCommand {
+
+  public ModuleStub(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+  }
 
   public String getId() {
     return "stub";

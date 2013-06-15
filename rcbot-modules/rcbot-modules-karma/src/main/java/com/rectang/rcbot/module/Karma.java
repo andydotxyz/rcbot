@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package com.rectang.rcbot.module;
 
+import com.rectang.rcbot.RCBot;
 import org.headsupdev.irc.IRCConnection;
 import org.headsupdev.irc.IRCServiceManager;
 import org.headsupdev.irc.IRCUser;
@@ -25,22 +26,12 @@ import java.util.*;
 /**
  * A module for keeping track of people's/thing's karma
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCCommand"
- *   role-hint="karma"
  */
-public class Karma extends ModuleImpl {
+public class Karma extends RCBotCommand {
 
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
-  private IRCServiceManager manager;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
+  public Karma(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+  }
 
   public String getId() {
     return "karma";

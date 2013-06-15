@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package com.rectang.rcbot.module;
 
-import org.headsupdev.irc.AbstractIRCCommand;
+import com.rectang.rcbot.RCBot;
 import org.headsupdev.irc.IRCConnection;
 import org.headsupdev.irc.IRCServiceManager;
 import org.headsupdev.irc.IRCUser;
@@ -25,23 +25,22 @@ import com.rectang.rcbot.StringUtils;
 /**
  * A module with random commands like uptime and botsnack
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCCommand"
- *   role-hint="time"
  */
-public class Time extends AbstractIRCCommand {
+public class Time extends RCBotCommand {
 
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
-  private IRCServiceManager manager;
+  public Time(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+  }
 
   public String getId() {
     return "time";
   }
 
-  public void onCommand(String channel, IRCUser user, String message, IRCConnection conn) {
+  public String getTitle() {
+    return "Greet the time on the server or of other users";
+  }
+
+  public void onSubCommand(String command, String channel, IRCUser user, String message, IRCConnection conn) {
     String nick = StringUtils.getFirstArg(message);
     if (nick.length() == 0 || nick.equals(conn.getNick()))
       conn.sendMessage(channel, "The time is " + new java.util.Date());

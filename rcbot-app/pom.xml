@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2006-2012 Andrew Williams.
+  ~ Copyright 2006-2013 Andrew Williams.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -27,14 +27,9 @@
   <name>Rectang.com RCBot Application</name>
   <dependencies>
     <dependency>
-      <groupId>org.codehaus.plexus</groupId>
-      <artifactId>plexus-container-default</artifactId>
-      <version>1.0-alpha-9</version>
-    </dependency>
-    <dependency>
       <groupId>org.headsupdev.irc</groupId>
       <artifactId>irc-core</artifactId>
-      <version>1.1</version>
+      <version>1.2</version>
       <scope>runtime</scope>
     </dependency>
     <dependency>

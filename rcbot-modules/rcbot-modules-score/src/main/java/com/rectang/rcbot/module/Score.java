@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +21,17 @@ import com.rectang.rcbot.*;
 /**
  * A score table for maintaining track of game results etc
  *
- * @plexus.component
- *   role="com.rectang.rcbot.Score"
  */
-public class Score implements com.rectang.rcbot.Score {
+public class Score extends com.rectang.rcbot.Score {
 
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
+  public static Score createInstance() {
+    Score instance = new Score();
+    setInstance(instance);
+    return instance;
+  }
 
   public Storage getStore() {
-    return StorageImpl.getInstance("score", bot);
+    return StorageImpl.getInstance("score", RCBot.getInstance());
   }
 
   public int getScore(String nick) {

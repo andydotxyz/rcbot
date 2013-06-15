@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import com.rectang.rcbot.Score;
 /**
  * Simple score stub for testing
  */
-public class ScoreStub implements Score {
+public class ScoreStub extends Score {
   public int getScore(String nick) {
     return 0;
   }

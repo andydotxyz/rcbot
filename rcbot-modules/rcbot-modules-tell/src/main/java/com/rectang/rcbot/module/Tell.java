@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,22 +27,12 @@ import org.headsupdev.irc.IRCServiceManager;
 /**
  * A module used to leave messages for people offline
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCCommand"
- *   role-hint="tell"
  */
-public class Tell extends ModuleImpl {
+public class Tell extends RCBotCommand {
 
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
-  private IRCServiceManager manager;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
+  public Tell(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+  }
 
   public String getId() {
     return "tell";

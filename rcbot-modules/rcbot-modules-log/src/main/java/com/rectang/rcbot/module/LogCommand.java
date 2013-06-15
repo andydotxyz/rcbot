@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package com.rectang.rcbot.module;
 
+import com.rectang.rcbot.RCBot;
 import org.headsupdev.irc.IRCConnection;
 import org.headsupdev.irc.IRCServiceManager;
 import org.headsupdev.irc.IRCUser;
@@ -33,26 +34,14 @@ import com.rectang.rcbot.StringUtils;
 /**
  * A module for insulting folk in a channel (nicely ish)
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCCommand"
- *   role-hint="log"
  */
-public class LogCommand extends ModuleImpl {
-
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
-  private IRCServiceManager manager;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
+public class LogCommand extends RCBotCommand {
 
   List commands;
 
-  public LogCommand() {
+  public LogCommand(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+
     commands = new Vector();
     commands.add("url");
     commands.add("list-topics");

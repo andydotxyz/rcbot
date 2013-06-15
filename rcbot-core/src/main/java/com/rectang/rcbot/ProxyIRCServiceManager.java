@@ -16,89 +16,60 @@
 
 package com.rectang.rcbot;
 
-import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.*;
-import org.headsupdev.irc.IRCCommand;
-import org.headsupdev.irc.IRCListener;
+import com.rectang.rcbot.module.RCBotCommand;
+import com.rectang.rcbot.module.RCBotListener;
 import org.headsupdev.irc.IRCServiceManager;
 import org.headsupdev.irc.impl.DefaultIRCServiceManager;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ClasspathHelper;
 
-import java.util.Iterator;
-import java.util.List;
+import java.lang.reflect.Constructor;
+import java.util.Set;
 
 /**
- * Proxy for implementation of the IRCServiceManager role, load commands and services from plexus config.
+ * Proxy for implementation of the IRCServiceManager role, load commands and services from the classpath.
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCServiceManager"
  */
-public class ProxyIRCServiceManager extends DefaultIRCServiceManager implements Serviceable {
-  private ServiceLocator locator;
+public class ProxyIRCServiceManager extends DefaultIRCServiceManager {
 
-  // A hack around broken plexus - remove ASAP
-  static LoadThread lookups;
+  public ProxyIRCServiceManager(final RCBot bot) {
+    loadCommands(bot);
+    loadListeners(bot);
+  }
 
-  public void service(final ServiceLocator serviceLocator) {
-    this.locator = serviceLocator;
+  private void loadCommands(final RCBot bot) {
+    Set<Class<? extends RCBotCommand>> commands = getClassesOfType(RCBotCommand.class);
 
-    if (lookups != null) {
-      lookups.cancel();
-    }
+    for (Class<? extends RCBotCommand> descriptor : commands) {
+      try {
+        Constructor<? extends RCBotCommand> constructor = descriptor.getConstructor(RCBot.class, IRCServiceManager.class);
 
-    (lookups = new LoadThread() {
-      public void run() {
-        try {
-          Thread.sleep(5000);
-        } catch (InterruptedException e) {
-          // just execute anyway - we will cancel before it happens
-        }
-
-        if (cancelled)
-          return;
-
-        loadCommands();
-        loadListeners();
+        ((DefaultIRCServiceManager) IRCServiceManager.getInstance()).addCommand(constructor.newInstance(bot, this));
+      } catch (Exception e) {
+        e.printStackTrace();
       }
-    }).start();
-  }
-
-  private void loadCommands() {
-    List commands;
-    try {
-      commands = locator.lookupList(IRCCommand.class.getName());
-    } catch (ComponentLookupException e) {
-      System.err.println("Error looking up commands: " + e.getMessage());
-      return;
-    }
-
-    Iterator cmdIter = commands.iterator();
-    while (cmdIter.hasNext()) {
-      IRCCommand command = (IRCCommand) cmdIter.next();
-      ((DefaultIRCServiceManager) IRCServiceManager.getInstance()).addCommand(command);
     }
   }
 
-  private void loadListeners() {
-    List listeners;
-    try {
-      listeners = locator.lookupList(IRCListener.class.getName());
-    } catch (ComponentLookupException e) {
-      System.err.println("Error looking up listener: " + e.getMessage());
-      return;
-    }
+  private void loadListeners(final RCBot bot) {
+    Set<Class<? extends RCBotListener>> listeners = getClassesOfType(RCBotListener.class);
 
-    Iterator listIter = listeners.iterator();
-    while (listIter.hasNext()) {
-      IRCListener listener = (IRCListener) listIter.next();
-      ((DefaultIRCServiceManager) IRCServiceManager.getInstance()).addListener(listener);
+    for (Class<? extends RCBotListener> descriptor : listeners) {
+      try {
+        Constructor<? extends RCBotListener> constructor = descriptor.getConstructor(RCBot.class, IRCServiceManager.class);
+
+        ((DefaultIRCServiceManager) IRCServiceManager.getInstance()).addListener(constructor.newInstance(bot, this));
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
+  }
+
+  protected <T> Set<Class<? extends T>> getClassesOfType(Class<T> clazz) {
+      Reflections reflections = new Reflections(ClasspathHelper.forJavaClassPath(), new SubTypesScanner());
+
+      return reflections.getSubTypesOf(clazz);
   }
 }
 
-class LoadThread extends Thread {
-  protected boolean cancelled = false;
-
-  public void cancel() {
-    cancelled = true;
-  }
-}

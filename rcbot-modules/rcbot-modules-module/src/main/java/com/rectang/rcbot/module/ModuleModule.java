@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,26 +26,14 @@ import org.headsupdev.irc.IRCUser;
 /**
  * A module for controlling modules
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCCommand"
- *   role-hint="module"
  */
 public class ModuleModule extends ModuleImpl {
 
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
-  private IRCServiceManager manager;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
-
   private Vector commands;
 
-  public ModuleModule() {
+  public Action(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+
     commands = new Vector();
     commands.add("load");
     commands.add("unload");
@@ -74,7 +62,7 @@ public class ModuleModule extends ModuleImpl {
 
     String arg1 = StringUtils.getFirstArg(message);
     manager.sendMessage(channel,
-        "This module is not working, there is no module control in Plexus YET");
+        "This module is not working, there is no module control in this runtime");
 /*    if (command.equals("load")) {
       if (RCBotImpl.getInstance().getDPMR().loadModule(arg1))
         sendMessage(channel, "Loaded module " + arg1 + " sucessfully");

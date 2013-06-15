@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,26 +27,14 @@ import org.headsupdev.irc.IRCUser;
 /**
  * A module for managing the bot's configuration
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCCommand"
- *   role-hint="config"
  */
-public class ConfigModule extends ModuleImpl {
-
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
-  private IRCServiceManager manager;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
+public class ConfigModule extends RCBotCommand {
 
   private Vector commands;
 
-  public ConfigModule() {
+  public ConfigModule(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+
     commands = new Vector();
     commands.add("list");
     commands.add("get");

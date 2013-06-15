@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,32 +28,14 @@ import org.headsupdev.irc.IRCServiceManager;
 /**
  * A module for playing games
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCommand"
- *   role-hint="games"
  */
-public class GameModule extends ModuleImpl {
-
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager
-   */
-  private IRCServiceManager manager;
-
-  /**
-   * @plexus.requirement
-   *   role="com.rectang.rcbot.RCBot"
-   */
-  private RCBot bot;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.Score scores;
+public class GameModule extends RCBotCommand {
 
   private Hashtable games;
 
-  public GameModule() {
+  public GameModule(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+
     games = new Hashtable();
     games.put("hilow", new HiLow(this));
   }
@@ -68,10 +50,6 @@ public class GameModule extends ModuleImpl {
 
   public Collection getCommands() {
     return games.keySet();
-  }
-
-  protected Score getScores() {
-    return scores;
   }
 
   public void onSubCommand(String command, String channel, IRCUser user,

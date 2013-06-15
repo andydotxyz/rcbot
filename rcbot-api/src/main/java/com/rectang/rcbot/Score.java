@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,27 @@
 
 package com.rectang.rcbot;
 
-public interface Score {
+public abstract class Score {
 
-  public String ROLE = Score.class.getName();
+  private static Score instance;
 
-  public int getScore(String nick);
+  public static Score getInstance() {
+    return instance;
+  }
 
-  public int incrementScore(String nick);
+  protected static void setInstance(Score score) {
+    instance = score;
+  }
 
-  public int incrementScore(String nick, int by);
+  public abstract int getScore(String nick);
 
-  public int decrementScore(String nick);
+  public abstract int incrementScore(String nick);
 
-  public int decrementScore(String nick, int by);
+  public abstract int incrementScore(String nick, int by);
 
-  public int setScore(String nick, int score);
+  public abstract int decrementScore(String nick);
+
+  public abstract int decrementScore(String nick, int by);
+
+  public abstract int setScore(String nick, int score);
 }

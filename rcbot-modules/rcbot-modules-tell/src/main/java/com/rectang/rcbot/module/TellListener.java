@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package com.rectang.rcbot.module;
 
+import com.rectang.rcbot.RCBot;
 import org.headsupdev.irc.AbstractIRCListener;
 import org.headsupdev.irc.IRCConnection;
 import org.headsupdev.irc.IRCUser;
@@ -26,22 +27,12 @@ import com.rectang.rcbot.StorageImpl;
 /**
  * A module for watching who is active so we can send them tell messages
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCListener"
- *   role-hint="tell-listen"
  */
-public class TellListener extends AbstractIRCListener {
+public class TellListener extends RCBotListener {
 
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
-  private IRCServiceManager manager;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
+  public TellListener(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+  }
 
   public Storage getStore() {
     return StorageImpl.getInstance("tell", bot);

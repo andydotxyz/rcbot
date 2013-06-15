@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package com.rectang.rcbot.module;
 
+import com.rectang.rcbot.RCBot;
 import org.headsupdev.irc.IRCConnection;
 import org.headsupdev.irc.IRCServiceManager;
 import org.headsupdev.irc.IRCUser;
@@ -30,27 +31,17 @@ import com.rectang.rcbot.ConfigImpl;
 /**
  * A module for managing small facts etc
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCListener"
- *   role-hint="factoid-listen"
  */
-public class FactoidListener extends AbstractIRCListener {
+public class FactoidListener extends RCBotListener {
 
   private static String public_listen_key =
       ConfigImpl.getModuleConfigKey("factoid", "public_listen");
   private static String public_respond_key =
       ConfigImpl.getModuleConfigKey("factoid", "public_respond");
 
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
-  private IRCServiceManager manager;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
+  public FactoidListener(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+  }
 
   public void onMessage(String channel, IRCUser user, String message, IRCConnection conn) {
     if (bot.getConfig().getBoolean(public_listen_key))

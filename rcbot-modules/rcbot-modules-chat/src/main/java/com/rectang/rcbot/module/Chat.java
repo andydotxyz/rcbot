@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,17 +27,12 @@ import org.headsupdev.irc.IRCUser;
 /**
  * A module for general bot responses
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCCommand"
- *   role-hint="say"
  */
-public class Chat extends ModuleImpl {
+public class Chat extends RCBotCommand {
 
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
-  private IRCServiceManager manager;
+  public Chat(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+  }
 
   public String getId() {
     return "say";
@@ -45,10 +40,6 @@ public class Chat extends ModuleImpl {
 
   public String getTitle() {
     return "Make the bot talk to things";
-  }
-
-  public Collection getCommands() {
-    return NO_COMMANDS;
   }
 
   public void onSubCommand(String command, String channel, IRCUser user,
@@ -64,9 +55,5 @@ public class Chat extends ModuleImpl {
     }
 
     conn.sendMessage(toChannel, message.substring(toChannel.length()).trim());
-  }
-
-  public void onMissingCommand(String command, String channel, IRCUser user, IRCConnection conn) {
-    /* NO_COMMANDS so cannot use this */
   }
 }

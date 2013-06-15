@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,27 +32,16 @@ import org.headsupdev.irc.IRCServiceManager;
  *
  * @author Andrew Williams
  * @since <pre>30-Oct-2006</pre>
- *
- * @plexus.component role="com.rectang.rcbot.module.FeedWatcher"
  */
 public class FeedWatcher {
 
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
-  private IRCServiceManager manager;
-
-  /**
-   * @plexus.requirement
-   *   role="com.rectang.rcbot.RCBot"
-   */
   private RCBot bot;
 
   private Map feeds = new HashMap();
   private WatcherThread watcher = new WatcherThread();
 
-  public FeedWatcher() {
+  public FeedWatcher(RCBot bot) {
+    this.bot = bot;
     watcher.start();
   }
 

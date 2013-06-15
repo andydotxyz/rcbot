@@ -16,10 +16,6 @@
 
 package com.rectang.rcbot;
 
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.*;
-import org.codehaus.plexus.logging.LogEnabled;
-import org.codehaus.plexus.logging.Logger;
-
 import org.headsupdev.irc.IRCConnection;
 import org.headsupdev.irc.IRCServiceManager;
 import org.headsupdev.irc.IRCUser;
@@ -29,10 +25,8 @@ import java.io.File;
 /**
  * Default implementation of the RCBot role
  *
- * @plexus.component
- *   role="com.rectang.rcbot.RCBot"
  */
-public class RCBotImpl implements RCBot, Startable, LogEnabled {
+public class RCBotImpl extends RCBot {
 
   private String ownerNick, ownerLogin, ownerHost;
   private long startTime;
@@ -40,24 +34,16 @@ public class RCBotImpl implements RCBot, Startable, LogEnabled {
   private IRCConnection connection;
   private StorageImpl config;
 
-  // A hack around broken plexus - remove ASAP
-  static boolean started = false;
-
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
   private IRCServiceManager manager;
 
-  /**
-   * @plexus.configuration default-value="${rcbot.id}"
-   */
   private String id;
 
-  private Logger logger;
-
-  public RCBotImpl() {
+  public RCBotImpl(String id) {
+    RCBot.setInstance(this);
+    this.id = id;
     this.startTime = System.currentTimeMillis();
+
+    manager = new ProxyIRCServiceManager(this);
   }
 
   private void init() {
@@ -111,21 +97,14 @@ public class RCBotImpl implements RCBot, Startable, LogEnabled {
     return new File(getId() + "_data");
   }
 
-  public void start() throws StartingException {
-    if (started)
-      return;
+  public void start() {
+    System.out.println("Starting RCBot[" + id + "]");
 
-    logger.info("Starting RCBot[" + id + "]");
-    started = true;
     init();
   }
 
-  public void stop() throws StoppingException {
-    logger.info("Stopping RCBot");
-  }
-
-  public void enableLogging(Logger logger) {
-    this.logger = logger;
+  public void stop() {
+    System.out.println("Stopping RCBot");
   }
 
   public IRCConnection getConnection() {

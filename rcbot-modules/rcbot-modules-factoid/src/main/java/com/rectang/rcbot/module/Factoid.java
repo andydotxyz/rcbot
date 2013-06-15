@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,22 +27,8 @@ import org.headsupdev.irc.IRCUser;
 /**
  * A module for managing small facts etc
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCCommand"
- *   role-hint="factoid"
  */
-public class Factoid extends ModuleImpl {
-
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
-   */
-  private IRCServiceManager manager;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
+public class Factoid extends RCBotCommand {
 
   public String getId() {
     return "factoid";
@@ -54,7 +40,9 @@ public class Factoid extends ModuleImpl {
 
   private List commands;
 
-  public Factoid() {
+  public Factoid(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+
     commands = new Vector();
     commands.add("forget");
   }

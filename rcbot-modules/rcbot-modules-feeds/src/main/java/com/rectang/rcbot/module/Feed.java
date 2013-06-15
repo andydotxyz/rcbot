@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,10 @@
 
 package com.rectang.rcbot.module;
 
+import com.rectang.rcbot.RCBot;
 import org.headsupdev.irc.IRCConnection;
 import org.headsupdev.irc.IRCUser;
 import org.headsupdev.irc.IRCServiceManager;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,36 +34,24 @@ import com.rectang.rcbot.Storage;
  * 
  * @author Andrew Williams
  * @since <pre>30-Oct-2006</pre>
- *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCCommand"
- *   role-hint="feeds"
  */
-public class Feed extends ModuleImpl implements Initializable {
+public class Feed extends RCBotCommand {
 
   /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager"
    */
-  private IRCServiceManager manager;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.module.FeedWatcher watcher;
+  private FeedWatcher watcher;
 
   List commands;
 
-  public Feed() {
+  public Feed(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+
     commands = new Vector();
     commands.add("watch");
     commands.add("unwatch");
     commands.add("update");
+
+    initialize();
   }
 
   public String getId() {
@@ -100,8 +87,8 @@ public class Feed extends ModuleImpl implements Initializable {
         command + "\"\nTry help");
   }
 
-
-  public void initialize() throws InitializationException {
+  public void initialize() {
+    watcher = new FeedWatcher(bot);
     Storage conf = StorageImpl.getInstance("feeds", bot);
 
     Enumeration keys = conf.listKeys();

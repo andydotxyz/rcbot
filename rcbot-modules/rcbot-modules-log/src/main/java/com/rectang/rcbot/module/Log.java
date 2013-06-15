@@ -21,6 +21,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 
+import com.rectang.rcbot.TemplateImpl;
 import org.headsupdev.irc.IRCConnection;
 import org.headsupdev.irc.IRCUser;
 import org.headsupdev.irc.IRCServiceManager;
@@ -33,27 +34,10 @@ import com.rectang.rcbot.RCBot;
 /**
  * A module used to log chat in a channel
  *
- * @plexus.component
- *   role="org.headsupdev.irc.IRCListener"
- *   role-hint="log-listen"
  */
-public class Log extends AbstractIRCListener {
+public class Log extends RCBotListener {
 
-  /**
-   * @plexus.requirement
-   *   role="org.headsupdev.irc.IRCServiceManager
-   */
-  private IRCServiceManager manager;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.RCBot bot;
-
-  /**
-   * @plexus.requirement
-   */
-  private com.rectang.rcbot.Template template;
+  private com.rectang.rcbot.Template template = new TemplateImpl();
 
   private DateFormat fileFormat = new SimpleDateFormat("yyyyMMdd");
   private DateFormat timeFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
@@ -62,7 +46,9 @@ public class Log extends AbstractIRCListener {
 
   private static HtmlRoller roller;
 
-  public Log() {
+  public Log(RCBot bot, IRCServiceManager manager) {
+    super(bot, manager);
+
     ignoredPrefixes = new HashSet();
     ignoredPrefixes.add("fatal");
     ignoredPrefixes.add("error");

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
  */
 
 package com.rectang.rcbot;
-
-import org.codehaus.plexus.embed.Embedder;
 
 public class Main2 {
 
@@ -34,12 +32,10 @@ public class Main2 {
         id = args[0];
     }
 
-    Embedder plexus = new Embedder();
-    plexus.addContextValue("rcbot.id", id);
-    plexus.start();
-
-    RCBot bot = (RCBot) plexus.getContainer().lookup(RCBot.ROLE);
+    RCBotImpl bot = new RCBotImpl(id);
+    bot.start();
     bot.connect();
+    // TODO how to STOP!
   }
 
   public static void doHelp() {

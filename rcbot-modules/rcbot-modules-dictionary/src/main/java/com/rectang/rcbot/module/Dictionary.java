@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2012 Andrew Williams.
+ * Copyright 2006-2013 Andrew Williams.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,6 @@ import java.net.Socket;
 /**
  * A dictionary for random wordy stuff
  *
- * @plexus.component
- *   role="com.rectang.rcbot.Dictionary"
  */
 public class Dictionary implements com.rectang.rcbot.Dictionary {
 
