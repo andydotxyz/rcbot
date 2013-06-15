@@ -18,12 +18,13 @@ package com.rectang.rcbot;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class StorageImpl extends ConfigImpl implements Storage {
 
-  private static Hashtable dbs = new Hashtable();
+  private static Hashtable<String,StorageImpl> dbs = new Hashtable<String,StorageImpl>();
 
   private StorageImpl(String dbName, RCBot bot) {
     super(dbName, bot);
@@ -49,7 +50,7 @@ public class StorageImpl extends ConfigImpl implements Storage {
   }
 
   public static StorageImpl getInstance(String dbName, RCBot bot) {
-    StorageImpl storage = (StorageImpl) dbs.get(dbName);
+    StorageImpl storage = dbs.get(dbName);
     if (storage == null)
       storage = new StorageImpl(dbName, bot);
 
@@ -110,11 +111,11 @@ public class StorageImpl extends ConfigImpl implements Storage {
   public String[] setStringList(String key, String[] list) {
     String[] current = getStringList(key);
     String setting = "";
-    for (int i = 0; i < list.length; i++) {
-      if (list[i] != null) {
+    for (String aList : list) {
+      if (aList != null) {
         if (setting.length() > 0)
           setting = setting.concat("|");
-        setting = setting.concat(list[i].replaceAll("\\|", "\\\\|"));
+        setting = setting.concat(aList.replaceAll("\\|", "\\\\|"));
       }
     }
     set(key, setting);
@@ -124,33 +125,31 @@ public class StorageImpl extends ConfigImpl implements Storage {
 
   public String[] appendStringList(String key, String value) {
     String[] old = getStringList(key);
-    ArrayList newList = new ArrayList();
+    ArrayList<String> newList = new ArrayList<String>();
     if (old != null) {
-      for (int i = 0; i < old.length; i++) {
-        newList.add(old[i]);
-      }
+      Collections.addAll(newList, old);
     }
 
     newList.add(value.replaceAll("\\|", "\\\\|"));
-    setStringList(key, (String[]) newList.toArray(new String[0]));
+    setStringList(key, newList.toArray(new String[newList.size()]));
     return old;
   }
 
   public String[] removeStringList(String key, String value) {
     String[] old = getStringList(key);
-    ArrayList newList = new ArrayList();
+    ArrayList<String> newList = new ArrayList<String>();
     if (old != null) {
-      for (int i = 0; i < old.length; i++) {
-        if (!old[i].equals(value))
-          newList.add(old[i]);
+      for (String anOld : old) {
+        if (!anOld.equals(value))
+          newList.add(anOld);
       }
     }
-    setStringList(key, (String[]) newList.toArray(new String[0]));
+    setStringList(key, newList.toArray(new String[newList.size()]));
     return old;
   }
 
   public String remove(String key) {
-    String ret = (String) db.remove(key.toLowerCase());
+    String ret = db.remove(key.toLowerCase());
 
     try {
       save(); /* FIXME - we should not be saving all the time */

@@ -25,14 +25,13 @@ public class ConfigImpl implements Config {
 
   private static ConfigImpl instance = null;
 
-  RCBot bot;
-  protected Hashtable db;
-  protected RCBot botImpl;
+  protected RCBot bot;
+  protected Hashtable<String,String> db;
   protected String name;
 
   /* TODO, make hashtable be key => value list */
   protected ConfigImpl(String dbName, RCBot bot) {
-    this.db = new Hashtable();
+    this.db = new Hashtable<String,String>();
     this.bot = bot;
     this.name = dbName;
 
@@ -51,7 +50,7 @@ public class ConfigImpl implements Config {
   }
 
   public void load() throws IOException {
-    BufferedReader reader = null;
+    BufferedReader reader;
     try {
       reader = new BufferedReader(new FileReader(getFileName()));
     } catch (FileNotFoundException e) {
@@ -78,7 +77,7 @@ public class ConfigImpl implements Config {
   }
 
   protected String get(String key) {
-    return (String) db.get(key.toLowerCase());
+    return db.get(key.toLowerCase());
   }
 
   public String getString(String key) {
@@ -86,7 +85,7 @@ public class ConfigImpl implements Config {
   }
 
   public boolean getBoolean(String key) {
-    return Boolean.valueOf(get(key)).booleanValue();
+    return Boolean.valueOf(get(key));
   }
 
   public int getInt(String key) {
@@ -109,7 +108,7 @@ public class ConfigImpl implements Config {
     String line = get(key);
     if (line == null || line.trim().length() == 0)
       return null;
-    ArrayList list = new ArrayList();
+    ArrayList<String> list = new ArrayList<String>();
 
     int pos = 0;
     for (int i = 0; i < line.length(); i++) {
@@ -125,7 +124,7 @@ public class ConfigImpl implements Config {
       list.add(line.substring(pos, line.length())
           .replaceAll("\\|", "|"));
 
-    return (String[]) list.toArray(new String[0]);
+    return list.toArray(new String[list.size()]);
   }
 
   public String getStringListFirst(String key) {

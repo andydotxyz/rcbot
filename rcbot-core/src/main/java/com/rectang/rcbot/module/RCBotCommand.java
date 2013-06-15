@@ -22,6 +22,12 @@ import java.util.*;
 
 import org.headsupdev.irc.*;
 
+/**
+ * A base command implementation for all commands to inherit from
+ *
+ * @author Andrew Williams
+ * @since 1.0
+ */
 public abstract class RCBotCommand extends AbstractIRCListener implements IRCCommand {
 
   protected IRCServiceManager manager;

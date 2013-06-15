@@ -68,8 +68,8 @@ public class RCBotImpl extends RCBot {
         getConfig().getString("bot.user"), getConfig().getString("bot.name"));
     String channels[] = getConfig().getString("bot.channels").split(",");
 
-    for (int i = 0; i < channels.length; i++) {
-      String channel = channels[i].trim();
+    for (String channel1 : channels) {
+      String channel = channel1.trim();
       connection.join(channel);
     }
 

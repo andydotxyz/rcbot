@@ -17,7 +17,6 @@
 package com.rectang.rcbot;
 
 import com.rectang.rcbot.module.RCBotListener;
-import org.headsupdev.irc.AbstractIRCListener;
 import org.headsupdev.irc.IRCConnection;
 import org.headsupdev.irc.IRCServiceManager;
 

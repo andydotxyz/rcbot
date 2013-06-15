@@ -45,7 +45,7 @@ public class ProxyIRCServiceManager extends DefaultIRCServiceManager {
       try {
         Constructor<? extends RCBotCommand> constructor = descriptor.getConstructor(RCBot.class, IRCServiceManager.class);
 
-        ((DefaultIRCServiceManager) IRCServiceManager.getInstance()).addCommand(constructor.newInstance(bot, this));
+        addCommand(constructor.newInstance(bot, this));
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -59,7 +59,7 @@ public class ProxyIRCServiceManager extends DefaultIRCServiceManager {
       try {
         Constructor<? extends RCBotListener> constructor = descriptor.getConstructor(RCBot.class, IRCServiceManager.class);
 
-        ((DefaultIRCServiceManager) IRCServiceManager.getInstance()).addListener(constructor.newInstance(bot, this));
+        addListener(constructor.newInstance(bot, this));
       } catch (Exception e) {
         e.printStackTrace();
       }
