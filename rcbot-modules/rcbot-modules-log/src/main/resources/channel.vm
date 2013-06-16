@@ -14,6 +14,7 @@ currently under discussion.</p>
         &nbsp;
 #end
       </td>
+      <td class="day">${day}</td>
       <td class="next">
 #if($next)
         <a href="${next}.html">next &gt;</a>

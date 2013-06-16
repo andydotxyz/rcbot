@@ -19,6 +19,8 @@ package com.rectang.rcbot.module;
 import org.apache.velocity.VelocityContext;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.rectang.rcbot.Storage;
@@ -36,9 +38,11 @@ public class HtmlRoller extends Thread {
       return pathname.getName().startsWith("#");
     }
   };
+  private DateFormat dayFormat;
 
   public HtmlRoller(Log logger) {
     this.logger = logger;
+    dayFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
   }
 
   private Date getMidnightToday() {
@@ -128,6 +132,7 @@ public class HtmlRoller extends Thread {
     thisDay.set(Calendar.SECOND, 0);
 
     String fileName = null, prevFileName = null;
+    Date logDate = null;
     if (append) { // if we are appending we need to link back to previous pages
       thisDay.add(Calendar.DATE, -1);
       prevFileName = logger.getFileFormat().format(thisDay.getTime());
@@ -139,14 +144,15 @@ public class HtmlRoller extends Thread {
       if (fileName != null) {
         rollHtml(new File(chanDir, fileName),
                 new File(htmlChan, fileName + ".html"), chanName, true,
-                prevFileName, nextFileName, false);
+                prevFileName, nextFileName, false, logDate);
         prevFileName = fileName;
       }
       fileName = nextFileName;
+      logDate = thisDay.getTime();
     }
     rollHtml(new File(chanDir, fileName),
             new File(htmlChan, fileName + ".html"), chanName, true,
-            prevFileName, null, true);
+            prevFileName, null, true, logDate);
 
     File topicHtmlChan = new File(htmlChan, "topics");
     if (!topicHtmlChan.exists())
@@ -158,7 +164,7 @@ public class HtmlRoller extends Thread {
         topicList.add(new LogChannel(topics[j].getName(), "&nbsp;"));
         rollHtml(topics[j], new File (topicHtmlChan,
                 topics[j].getName() + ".html"), topics[j].getName(), false,
-                null, null, false);
+                null, null, false, null);
       }
     }
     VelocityContext context = new VelocityContext();
@@ -175,11 +181,14 @@ public class HtmlRoller extends Thread {
 
   private void rollHtml(File log, File html, String channel,
                         boolean isChannel, String prev, String next,
-                        boolean isToday) {
+                        boolean isToday, Date day) {
     try {
       VelocityContext context = new VelocityContext();
       context.put("prev", prev);
       context.put("next", next);
+      if (day != null) {
+        context.put("day", dayFormat.format(day));
+      }
       if (log.exists()) {
         BufferedReader in = new BufferedReader(new FileReader(log));
         List lines = new ArrayList();
