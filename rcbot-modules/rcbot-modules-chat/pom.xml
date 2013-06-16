@@ -19,11 +19,11 @@
   <parent>
     <groupId>com.rectang.rcbot</groupId>
     <artifactId>rcbot-modules</artifactId>
-    <version>1.0-beta-2</version>
+    <version>1.0-beta-3-SNAPSHOT</version>
   </parent>
   <groupId>com.rectang.rcbot</groupId>
   <artifactId>rcbot-modules-chat</artifactId>
-  <version>1.0-beta-2</version>
+  <version>1.0-beta-3-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Rectang.com RCBot Chat Module</name>
 </project>

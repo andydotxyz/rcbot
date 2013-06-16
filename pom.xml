@@ -24,7 +24,7 @@
   </parent>
   <groupId>com.rectang.rcbot</groupId>
   <artifactId>rcbot</artifactId>
-  <version>1.0-beta-2</version>
+  <version>1.0-beta-3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Rectang.com RCBot</name>
   <url>dev.rectang.com/rcbot</url>
