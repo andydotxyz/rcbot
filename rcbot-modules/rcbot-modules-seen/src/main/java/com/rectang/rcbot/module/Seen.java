@@ -51,7 +51,6 @@ public class Seen extends RCBotCommand {
 
   public void onSubCommand(String command, String channel, IRCUser user,
                            String message, IRCConnection conn) {
-    
     String match = getStore(bot).getString(message);
     if (match == null || match.equals("")) {
       conn.sendMessage(channel, "I cannot remember seeing " + message);
@@ -64,13 +63,21 @@ public class Seen extends RCBotCommand {
       } catch (NumberFormatException e) {
         /* report below that we cannot remember */
       }
-      if (parts.length < 3 || time == 0) {
+      if (time == 0) {
         conn.sendMessage(channel, "I have seen " + message + ", but I cannot remember when");
       } else {
-        conn.sendMessage(channel, "I last saw " + message + " on " + parts[1] + " " +
-          StringUtils.formatTimeOffset((System.currentTimeMillis() - time)
-              / 1000) + " ago " + 
-          match.substring(parts[0].length() + 1 + parts[1].length() + 1));
+          String timeOffset = StringUtils.formatTimeOffset((System.currentTimeMillis() - time) / 1000);
+          if (parts.length < 3) {
+              conn.sendMessage(channel, "I have seen " + message + " on " + parts[1] + " " + timeOffset + " ago");
+          } else {
+              String action = match.substring(parts[0].length() + 1 + parts[1].length() + 1);
+              if (action.equals("joining")) {
+                conn.sendMessage(channel, "I last saw " + message + " joining " + parts[1] + " " + timeOffset + " ago");
+              } else {
+                conn.sendMessage(channel, "I last saw " + message + " on " + parts[1] + " " + timeOffset + " ago " +
+                    action);
+              }
+          }
       }
     }
   }
