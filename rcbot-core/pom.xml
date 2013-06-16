@@ -30,7 +30,6 @@
     <dependency>
       <groupId>org.headsupdev.irc</groupId>
       <artifactId>irc-core</artifactId>
-      <version>1.2</version>
     </dependency>
     <dependency>
       <groupId>com.rectang.rcbot</groupId>
