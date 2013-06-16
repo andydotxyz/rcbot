@@ -19,10 +19,10 @@
   <parent>
     <groupId>com.rectang.rcbot</groupId>
     <artifactId>rcbot</artifactId>
-    <version>1.0-beta-2-SNAPSHOT</version>
+    <version>1.0-beta-2</version>
   </parent>
   <artifactId>rcbot-api</artifactId>
-  <version>1.0-beta-2-SNAPSHOT</version>
+  <version>1.0-beta-2</version>
   <packaging>jar</packaging>
   <name>Rectang.com RCBot API</name>
   <url>dev.rectang.com/projects/rcbot</url>
